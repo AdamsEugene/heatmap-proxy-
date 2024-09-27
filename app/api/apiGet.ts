@@ -47,7 +47,7 @@ export async function getAllProxyList(params: GET_PROXY) {
   const { type } = params;
   const appendedUrl = `=&type=${type}&request=list`;
 
-  const res = await apiGet<PROXY_RESPONSE>(appendedUrl);
+  const res = await apiGet<PROXY_RESPONSE>(appendedUrl, { cache: "no-store" });
 
   return res;
 }
@@ -57,15 +57,31 @@ type ADD_PROXY = {
   proxy: string;
 };
 
+// export async function addProxy(params: ADD_PROXY) {
+//   const { type, proxy } = params;
+//   const appendedUrl = `=${proxy}&type=${type}&action=add`;
+
+//   console.log(appendedUrl);
+
+//   const res = await apiPost<PROXY_RESPONSE>(appendedUrl);
+
+//   console.log(res);
+
+//   return res;
+// }
+
 export async function addProxy(params: ADD_PROXY) {
   const { type, proxy } = params;
-  const appendedUrl = `=${proxy}&type=${type}&action=add`;
 
-  console.log(appendedUrl);
+  const requestOptions = {
+    method: "POST",
+    redirect: "follow",
+  };
 
-  const res = await apiPost<PROXY_RESPONSE>(appendedUrl);
-
-  console.log(res);
+  const res = await fetch(
+    `https://dashboard.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
+    requestOptions as RequestInit
+  );
 
   return res;
 }

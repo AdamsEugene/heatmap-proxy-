@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Modal,
   ModalContent,
@@ -8,8 +10,6 @@ import {
   Input,
 } from "@nextui-org/react";
 import { useState } from "react";
-
-import { addProxy } from "@/app/api/apiGet";
 
 type PROPS = {
   pageTitle: string;
@@ -24,6 +24,36 @@ export default function StyledModal({
 }: PROPS) {
   const [url, setUrl] = useState("");
   const [error, setError] = useState(false);
+  const [adding, setAdding] = useState(false);
+
+  const handleSubmit = async (onClose: () => void) => {
+    setAdding(true);
+    if (!url) {
+      setError(true);
+
+      return;
+    }
+    if (url) {
+      const requestOptions = {
+        method: "POST",
+        redirect: "follow",
+      };
+
+      const type = pageTitle === "SPAs" ? "spa" : "origin";
+      const proxy = url.trim();
+
+      const res = await fetch(
+        `https://dashboard.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
+        requestOptions as RequestInit
+      );
+      const result = await res.json();
+
+      if (result && result.result === "success") {
+        onClose();
+      }
+      setAdding(false);
+    }
+  };
 
   return (
     <>
@@ -52,18 +82,8 @@ export default function StyledModal({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() => {
-                    if (!url) {
-                      setError(true);
-
-                      return;
-                    }
-                    url &&
-                      addProxy({
-                        proxy: url.trim(),
-                        type: pageTitle === "SPAs" ? "spa" : "origin",
-                      });
-                  }}
+                  isLoading={adding}
+                  onPress={() => handleSubmit(onClose)}
                 >
                   Add
                 </Button>

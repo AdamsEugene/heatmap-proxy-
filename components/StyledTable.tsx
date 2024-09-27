@@ -35,7 +35,8 @@ export default function StyledTable({ proxyList }: PROPS) {
     "toggle" | "replace"
   >("replace");
 
-  const Active = proxyList.msg.map((proxy) => ({
+
+  const Active = Object.values(proxyList?.msg || {})?.map((proxy) => ({
     key: proxy,
     name: proxy,
     status: "Active",
