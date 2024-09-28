@@ -11,10 +11,11 @@ import {
   Chip,
   Tooltip,
   Radio,
-  RadioGroup
+  RadioGroup,
 } from "@nextui-org/react";
 
 import { EditIcon, DeleteIcon, EyeIcon } from "./icons";
+
 import { PROXY_RESPONSE } from "@/types";
 
 type ProxyItem = {
@@ -30,26 +31,33 @@ type PROPS = {
 const columns = [
   { key: "name", label: "NAME" },
   { key: "status", label: "STATUS" },
-  { key: "actions", label: "ACTIONS" }
+  { key: "actions", label: "ACTIONS" },
 ];
 
-const statusColorMap: { [key in ProxyItem["status"]]: "success" | "danger" | "warning" } = {
+const statusColorMap: {
+  [key in ProxyItem["status"]]: "success" | "danger" | "warning";
+} = {
   active: "success",
   paused: "danger",
   vacation: "warning",
 };
 
 export default function StyledTable({ proxyList }: PROPS) {
-  const [selectionBehavior, setSelectionBehavior] = React.useState<"toggle" | "replace">("replace");
+  const [selectionBehavior, setSelectionBehavior] = React.useState<
+    "toggle" | "replace"
+  >("replace");
 
-  const Active: ProxyItem[] = Object.values(proxyList?.msg || {}).map((proxy) => ({
-    key: proxy,
-    name: proxy,
-    status: "active",
-  }));
+  const Active: ProxyItem[] = Object.values(proxyList?.msg || {}).map(
+    (proxy) => ({
+      key: proxy,
+      name: proxy,
+      status: "active",
+    })
+  );
 
   const renderCell = React.useCallback((item: ProxyItem, columnKey: string) => {
     const cellValue = item[columnKey as keyof ProxyItem];
+
     switch (columnKey) {
       case "name":
         return <span>{cellValue as string}</span>;
@@ -77,7 +85,7 @@ export default function StyledTable({ proxyList }: PROPS) {
                 <EditIcon />
               </span>
             </Tooltip>
-            <Tooltip content="Delete" color="danger">
+            <Tooltip color="danger" content="Delete">
               <span className="cursor-pointer text-danger">
                 <DeleteIcon />
               </span>
@@ -99,8 +107,15 @@ export default function StyledTable({ proxyList }: PROPS) {
       >
         <TableHeader columns={columns}>
           {(column) => (
-            <TableColumn key={column.key} align={column.key === "actions" ? "center" : "start"}>
-              <div className={`flex ${column.key === "actions" ? "justify-center" : "justify-start"}`}>
+            <TableColumn
+              key={column.key}
+              align={column.key === "actions" ? "center" : "start"}
+            >
+              <div
+                className={`flex ${
+                  column.key === "actions" ? "justify-center" : "justify-start"
+                }`}
+              >
                 {column.label}
               </div>
             </TableColumn>
@@ -110,7 +125,7 @@ export default function StyledTable({ proxyList }: PROPS) {
           {(item) => (
             <TableRow key={item.key}>
               {(columnKey) => (
-                <TableCell align={columnKey === "actions" ? "center" : "start"}>
+                <TableCell align={columnKey === "actions" ? "center" : "left"}>
                   {renderCell(item, columnKey as string)}
                 </TableCell>
               )}
