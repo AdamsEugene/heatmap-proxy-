@@ -48,7 +48,7 @@ export default function StyledModal({
 
       const res = await fetch(
         `https://dashboard.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
-        requestOptions as RequestInit,
+        requestOptions as RequestInit
       );
       const result = await res.json();
 
@@ -56,6 +56,8 @@ export default function StyledModal({
         addItem(url);
 
         onClose();
+      } else {
+        setError(true);
       }
       setAdding(false);
     }

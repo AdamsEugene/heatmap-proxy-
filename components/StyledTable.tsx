@@ -133,7 +133,7 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
                 <div
                   className={`flex ${
                     column.key === "actions"
-                      ? "justify-end mr-7"
+                      ? "justify-end mr-8"
                       : "justify-start"
                   }`}
                 >

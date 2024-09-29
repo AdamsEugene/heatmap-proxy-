@@ -8,6 +8,7 @@ export async function apiGet<T>(
 ): Promise<T> {
   const res = await fetch(`${process.env.BASE_URL}${url}`, {
     next: { tags: ["home", "proxy"] },
+    cache: "no-store",
     ...options,
   });
 
@@ -73,14 +74,16 @@ export async function addProxy(params: ADD_PROXY) {
   return res;
 }
 
-export const removeProxy = async (proxy: string) => {
+export const removeProxy = async (params: ADD_PROXY) => {
+  const { type, proxy } = params;
+
   const requestOptions = {
     method: "GET",
     redirect: "follow",
   };
 
   const response = await fetch(
-    `https://dashboard.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=spa&request=remove`,
+    `https://dashboard.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=remove`,
     requestOptions as RequestInit
   );
 
