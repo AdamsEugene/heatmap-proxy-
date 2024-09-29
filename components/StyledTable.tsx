@@ -12,10 +12,10 @@ import {
   Tooltip,
   Radio,
   RadioGroup,
+  Pagination,
 } from "@nextui-org/react";
 
 import { EditIcon, DeleteIcon, EyeIcon } from "./icons";
-
 import { PROXY_RESPONSE } from "@/types";
 
 type ProxyItem = {
@@ -47,12 +47,22 @@ export default function StyledTable({ proxyList }: PROPS) {
     "toggle" | "replace"
   >("replace");
 
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const itemsPerPage = 10; // Changed to 10 items per page
+
   const Active: ProxyItem[] = Object.values(proxyList?.msg || {}).map(
     (proxy) => ({
       key: proxy,
       name: proxy,
       status: "active",
     })
+  );
+
+  const totalPages = Math.ceil(Active.length / itemsPerPage);
+
+  const paginatedData = Active.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const renderCell = React.useCallback((item: ProxyItem, columnKey: string) => {
@@ -121,7 +131,7 @@ export default function StyledTable({ proxyList }: PROPS) {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={Active}>
+        <TableBody items={paginatedData}>
           {(item) => (
             <TableRow key={item.key}>
               {(columnKey) => (
@@ -133,6 +143,16 @@ export default function StyledTable({ proxyList }: PROPS) {
           )}
         </TableBody>
       </Table>
+
+      <div className="flex justify-center mt-4">
+        <Pagination
+          total={totalPages}
+          initialPage={1}
+          page={currentPage}
+          onChange={(page) => setCurrentPage(page)}
+        />
+      </div>
+
       <RadioGroup
         label="Selection Behavior"
         orientation="horizontal"
