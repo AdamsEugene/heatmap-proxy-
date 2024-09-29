@@ -15,12 +15,14 @@ type PROPS = {
   pageTitle: string;
   isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
+  setAllData: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export default function StyledModal({
   isOpen,
   onOpenChange,
   pageTitle,
+  setAllData,
 }: PROPS) {
   const [url, setUrl] = useState("");
   const [error, setError] = useState(false);
@@ -49,6 +51,8 @@ export default function StyledModal({
       const result = await res.json();
 
       if (result && result.result === "success") {
+        setAllData((p) => (p ? [url, ...p] : [url]));
+
         onClose();
       }
       setAdding(false);

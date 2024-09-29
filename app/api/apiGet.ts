@@ -57,19 +57,6 @@ type ADD_PROXY = {
   proxy: string;
 };
 
-// export async function addProxy(params: ADD_PROXY) {
-//   const { type, proxy } = params;
-//   const appendedUrl = `=${proxy}&type=${type}&action=add`;
-
-//   console.log(appendedUrl);
-
-//   const res = await apiPost<PROXY_RESPONSE>(appendedUrl);
-
-//   console.log(res);
-
-//   return res;
-// }
-
 export async function addProxy(params: ADD_PROXY) {
   const { type, proxy } = params;
 
@@ -85,3 +72,21 @@ export async function addProxy(params: ADD_PROXY) {
 
   return res;
 }
+
+export const removeProxy = async (proxy: string) => {
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+
+  const response = await fetch(
+    `https://dashboard.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=spa&request=remove`,
+    requestOptions as RequestInit
+  );
+
+  if (response.ok) {
+    return proxy;
+  }
+
+  return false;
+};
