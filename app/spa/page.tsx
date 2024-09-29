@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <section className="flex flex-col items-center justify-center gap-8 py-2">
-      <StyledTable proxyList={proxyList} pageTitle="SPAs" />
+      <StyledTable pageTitle="SPAs" proxyList={proxyList} />
     </section>
   );
 }

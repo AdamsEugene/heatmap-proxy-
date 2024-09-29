@@ -103,7 +103,10 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
                 className="cursor-pointer text-danger"
                 variant="light"
                 onClick={async () => {
-                  const res = await removeProxy(item.name);
+                  const res = await removeProxy({
+                    proxy: item.name,
+                    type: pageTitle === "SPAs" ? "spa" : "origin",
+                  });
 
                   if (res) removeItem(item.name);
                 }}
