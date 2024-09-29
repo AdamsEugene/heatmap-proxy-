@@ -10,10 +10,9 @@ import { title } from "@/components/primitives";
 
 type PROPS = {
   pageTitle: string;
-  setAllData: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-export default function StyledHeader({ pageTitle, setAllData }: PROPS) {
+export default function StyledHeader({ pageTitle }: PROPS) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -32,7 +31,6 @@ export default function StyledHeader({ pageTitle, setAllData }: PROPS) {
       <StyledModal
         isOpen={isOpen}
         pageTitle={pageTitle}
-        setAllData={setAllData}
         onOpenChange={onOpenChange}
       />
     </div>

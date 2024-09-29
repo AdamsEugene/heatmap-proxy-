@@ -11,22 +11,24 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 
+import { useAppStore } from "@/app/store/AppStoreProvider";
+
 type PROPS = {
   pageTitle: string;
   isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
-  setAllData: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export default function StyledModal({
   isOpen,
   onOpenChange,
   pageTitle,
-  setAllData,
 }: PROPS) {
   const [url, setUrl] = useState("");
   const [error, setError] = useState(false);
   const [adding, setAdding] = useState(false);
+
+  const addItem = useAppStore((state) => state.addItem);
 
   const handleSubmit = async (onClose: () => void) => {
     setAdding(true);
@@ -46,12 +48,12 @@ export default function StyledModal({
 
       const res = await fetch(
         `https://dashboard.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
-        requestOptions as RequestInit
+        requestOptions as RequestInit,
       );
       const result = await res.json();
 
       if (result && result.result === "success") {
-        setAllData((p) => (p ? [url, ...p] : [url]));
+        addItem(url);
 
         onClose();
       }

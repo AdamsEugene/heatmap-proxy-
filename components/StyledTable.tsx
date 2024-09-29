@@ -19,6 +19,7 @@ import StyledHeader from "./StyledHeader";
 
 import { PROXY_RESPONSE } from "@/types";
 import { removeProxy } from "@/app/api/apiGet";
+import { useAppStore } from "@/app/store/AppStoreProvider";
 
 type ProxyItem = {
   key: string;
@@ -47,27 +48,34 @@ const statusColorMap: {
 
 export default function StyledTable({ proxyList, pageTitle }: PROPS) {
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [allData, setAllData] = React.useState(Object.values(proxyList?.msg));
   const itemsPerPage = 10;
 
+  const setAllData = useAppStore((state) => state.setAllData);
+  const filteredData = useAppStore((state) => state.filteredData);
+  const removeItem = useAppStore((state) => state.removeItem);
+
   const Active = React.useMemo(() => {
-    return Object.values(allData || {}).map((proxy) => ({
+    return Object.values(filteredData || {}).map((proxy) => ({
       key: proxy,
       name: proxy,
       status: "active",
     }));
-  }, [allData]) as ProxyItem[];
+  }, [filteredData]) as ProxyItem[];
 
   const totalPages = Math.ceil(Active.length / itemsPerPage);
 
   const paginatedData = Active.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   React.useEffect(() => {
-    if (allData.length <= 10) setCurrentPage(1);
-  }, [allData]);
+    if (filteredData.length <= 10) setCurrentPage(1);
+  }, [filteredData]);
+
+  React.useEffect(() => {
+    setAllData(Object.values(proxyList.msg));
+  }, []);
 
   const renderCell = React.useCallback((item: ProxyItem, columnKey: string) => {
     const cellValue = item[columnKey as keyof ProxyItem];
@@ -97,7 +105,7 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
                 onClick={async () => {
                   const res = await removeProxy(item.name);
 
-                  if (res) setAllData((p) => p?.filter((i) => i !== res));
+                  if (res) removeItem(item.name);
                 }}
               >
                 <DeleteIcon className="text-xl" />
@@ -112,7 +120,7 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
 
   return (
     <div className="flex flex-col w-full gap-8">
-      <StyledHeader pageTitle={pageTitle} setAllData={setAllData} />
+      <StyledHeader pageTitle={pageTitle} />
 
       <div className="flex flex-col w-full gap-4">
         <Table isStriped aria-label="Styled table with dynamic content">
