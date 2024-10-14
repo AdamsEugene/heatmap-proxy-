@@ -43,7 +43,7 @@ export default function StyledModal({
         redirect: "follow",
       };
 
-      const type = pageTitle === "SPAs" ? "spa" : "origin";
+      const type = pageTitle === "SPAs" ? "spa" : "website";
       const proxy = url.trim();
 
       const res = await fetch(
