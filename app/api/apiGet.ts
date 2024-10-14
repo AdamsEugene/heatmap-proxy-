@@ -49,7 +49,7 @@ export async function getAllProxyList(params: GET_PROXY) {
   const appendedUrl = `=&type=${type}&request=list`;
 
   const res = await apiGet<PROXY_RESPONSE>(appendedUrl, { cache: "no-store" });
-
+  if (res.result === "error") return false;
   return res;
 }
 
