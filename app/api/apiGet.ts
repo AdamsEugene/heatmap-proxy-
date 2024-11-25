@@ -67,7 +67,7 @@ export async function addProxy(params: ADD_PROXY) {
   };
 
   const res = await fetch(
-    `https://dashboard.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
+    `https://portal.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
     requestOptions as RequestInit
   );
 
@@ -83,9 +83,11 @@ export const removeProxy = async (params: ADD_PROXY) => {
   };
 
   const response = await fetch(
-    `https://dashboard.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=remove`,
+    `https://portal.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=remove`,
     requestOptions as RequestInit
   );
+
+  console.log(response);
 
   if (response.ok) {
     return proxy;
