@@ -23,7 +23,7 @@ export default function StyledHeader({ pageTitle }: PROPS) {
       </div>
       <Button
         color="primary"
-        startContent={<IoAdd className="text-2xl" />}
+        startContent={<IoAdd size={24} />} // or just <IoAdd />
         onClick={onOpen}
       >
         Add site
