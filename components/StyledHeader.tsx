@@ -2,7 +2,6 @@
 
 import { useDisclosure } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
-import { IoAdd } from "react-icons/io5";
 
 import StyledModal from "./StyledModal";
 
@@ -21,11 +20,7 @@ export default function StyledHeader({ pageTitle }: PROPS) {
         <span className={title()}>{pageTitle}&nbsp;</span>
         <span className={title({ color: "violet" })}>Proxy</span>
       </div>
-      <Button
-        color="primary"
-        startContent={<IoAdd size={24} />} // or just <IoAdd />
-        onClick={onOpen}
-      >
+      <Button color="primary" onClick={onOpen}>
         Add site
       </Button>
       <StyledModal
