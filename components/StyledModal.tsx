@@ -47,7 +47,7 @@ export default function StyledModal({
       const proxy = url.trim();
 
       const res = await fetch(
-        `https://portal.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
+        `https://stage1.heatmapcore.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
         requestOptions as RequestInit
       );
       const result = await res.json();

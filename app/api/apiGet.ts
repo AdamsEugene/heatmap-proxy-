@@ -6,11 +6,14 @@ export async function apiGet<T>(
   url: string,
   options?: RequestInit
 ): Promise<T> {
-  const res = await fetch(`${process.env.BASE_URL}${url}`, {
-    next: { tags: ["home", "proxy"] },
-    cache: "no-store",
-    ...options,
-  });
+  const res = await fetch(
+    `https://stage1.heatmapcore.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url${url}`,
+    {
+      next: { tags: ["home", "proxy"] },
+      cache: "no-store",
+      ...options,
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -25,11 +28,14 @@ export async function apiPost<T>(
   url: string,
   options?: RequestInit
 ): Promise<T> {
-  const res = await fetch(`${process.env.BASE_URL}${url}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    ...options,
-  });
+  const res = await fetch(
+    `https://stage1.heatmapcore.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url${url}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      ...options,
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -67,7 +73,7 @@ export async function addProxy(params: ADD_PROXY) {
   };
 
   const res = await fetch(
-    `https://portal.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
+    `https://stage1.heatmapcore.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
     requestOptions as RequestInit
   );
 
@@ -83,7 +89,7 @@ export const removeProxy = async (params: ADD_PROXY) => {
   };
 
   const response = await fetch(
-    `https://portal.heatmap.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=remove`,
+    `https://stage1.heatmapcore.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=remove`,
     requestOptions as RequestInit
   );
 
