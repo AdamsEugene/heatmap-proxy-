@@ -7,7 +7,7 @@ export async function apiGet<T>(
   options?: RequestInit
 ): Promise<T> {
   const res = await fetch(
-    `https://stage1.heatmapcore.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url${url}`,
+    `https://stage9.heatmapcore.com/backend/settings/manageorigin?url${url}`,
     {
       next: { tags: ["home", "proxy"] },
       cache: "no-store",
@@ -29,7 +29,7 @@ export async function apiPost<T>(
   options?: RequestInit
 ): Promise<T> {
   const res = await fetch(
-    `https://stage1.heatmapcore.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url${url}`,
+    `https://stage9.heatmapcore.com/backend/settings/manageorigin?url${url}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -73,13 +73,13 @@ export async function addProxy(params: ADD_PROXY) {
   };
 
   const res = await fetch(
-    `https://stage1.heatmapcore.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=add`,
+    `https://stage9.heatmapcore.com/backend/settings/manageorigin?url=${proxy}&type=${type}&request=add`,
     requestOptions as RequestInit
   );
 
   return res;
 }
-
+// https://stage9.heatmapcore.com/backend/settings/manageorigin?url=other&type=spa&request=list
 export const removeProxy = async (params: ADD_PROXY) => {
   const { type, proxy } = params;
 
@@ -89,7 +89,7 @@ export const removeProxy = async (params: ADD_PROXY) => {
   };
 
   const response = await fetch(
-    `https://stage1.heatmapcore.com/index.php?module=API&method=PaymentIntegration.manageOrigin&url=${proxy}&type=${type}&request=remove`,
+    `https://stage9.heatmapcore.com/backend/settings/manageorigin?url=${proxy}&type=${type}&request=remove`,
     requestOptions as RequestInit
   );
 
