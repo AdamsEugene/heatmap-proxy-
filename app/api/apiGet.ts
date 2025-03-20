@@ -55,8 +55,10 @@ export async function getAllProxyList(params: GET_PROXY) {
   const appendedUrl = `=&type=${type}&request=list`;
 
   const res = await apiGet<PROXY_RESPONSE>(appendedUrl, { cache: "no-store" });
+
   if (res.result === "error") return false;
-  return res;
+
+  return (res as any).data;
 }
 
 type ADD_PROXY = {
@@ -77,7 +79,7 @@ export async function addProxy(params: ADD_PROXY) {
     requestOptions as RequestInit
   );
 
-  return res;
+  return (res as any).data;
 }
 // https://stage9.heatmapcore.com/backend/settings/manageorigin?url=other&type=spa&request=list
 export const removeProxy = async (params: ADD_PROXY) => {

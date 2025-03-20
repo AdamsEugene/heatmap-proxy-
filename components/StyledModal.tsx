@@ -50,9 +50,8 @@ export default function StyledModal({
         `https://stage9.heatmapcore.com/backend/settings/manageorigin?url=${proxy}&type=${type}&request=add`,
         requestOptions as RequestInit
       );
-      const result = await res.json();
 
-      if (result && result.result === "success") {
+      if (res.ok) {
         addItem(url);
 
         onClose();

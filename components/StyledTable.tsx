@@ -55,26 +55,26 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
   const removeItem = useAppStore((state) => state.removeItem);
 
   const Active = React.useMemo(() => {
-    return Object.values(filteredData || {}).map((proxy) => ({
+    return filteredData?.map((proxy) => ({
       key: proxy,
       name: proxy,
       status: "active",
     }));
   }, [filteredData]) as ProxyItem[];
 
-  const totalPages = Math.ceil(Active.length / itemsPerPage);
+  const totalPages = Math.ceil(Active?.length / itemsPerPage);
 
-  const paginatedData = Active.slice(
+  const paginatedData = Active?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
   React.useEffect(() => {
-    if (filteredData.length <= 10) setCurrentPage(1);
+    if (filteredData?.length <= 10) setCurrentPage(1);
   }, [filteredData]);
 
   React.useEffect(() => {
-    setAllData(Object.values(proxyList.msg));
+    setAllData(proxyList as any);
   }, []);
 
   const renderCell = React.useCallback((item: ProxyItem, columnKey: string) => {
@@ -159,7 +159,7 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
             )}
           </TableBody>
         </Table>
-        {Active.length > itemsPerPage && (
+        {Active?.length > itemsPerPage && (
           <div className="flex justify-center mt-4">
             <Pagination
               color="secondary"
