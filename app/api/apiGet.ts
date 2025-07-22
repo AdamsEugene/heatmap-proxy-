@@ -4,7 +4,7 @@ import { PROXY_RESPONSE } from "@/types";
 
 export async function apiGet<T>(
   url: string,
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<T> {
   const res = await fetch(
     `https://stage9.heatmapcore.com/backend/settings/manageorigin?url${url}`,
@@ -12,7 +12,7 @@ export async function apiGet<T>(
       next: { tags: ["home", "proxy"] },
       cache: "no-store",
       ...options,
-    }
+    },
   );
 
   if (!res.ok) {
@@ -26,7 +26,7 @@ export async function apiGet<T>(
 
 export async function apiPost<T>(
   url: string,
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<T> {
   const res = await fetch(
     `https://stage9.heatmapcore.com/backend/settings/manageorigin?url${url}`,
@@ -34,7 +34,7 @@ export async function apiPost<T>(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       ...options,
-    }
+    },
   );
 
   if (!res.ok) {
@@ -76,7 +76,7 @@ export async function addProxy(params: ADD_PROXY) {
 
   const res = await fetch(
     `https://stage9.heatmapcore.com/backend/settings/manageorigin?url=${proxy}&type=${type}&request=add`,
-    requestOptions as RequestInit
+    requestOptions as RequestInit,
   );
 
   return (res as any).data;
@@ -92,7 +92,7 @@ export const removeProxy = async (params: ADD_PROXY) => {
 
   const response = await fetch(
     `https://stage9.heatmapcore.com/backend/settings/manageorigin?url=${proxy}&type=${type}&request=remove`,
-    requestOptions as RequestInit
+    requestOptions as RequestInit,
   );
 
   console.log(response);

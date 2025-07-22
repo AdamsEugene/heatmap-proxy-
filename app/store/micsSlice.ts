@@ -28,7 +28,7 @@ export const defaultMicsState: MicsState = {
 
 export const createMicsSlice =
   (
-    initState: MicsState = defaultMicsState
+    initState: MicsState = defaultMicsState,
   ): StateCreator<MicsSlice, [], [], MicsSlice> =>
   (set, get) => ({
     ...initState,
@@ -47,7 +47,7 @@ export const createMicsSlice =
       const { allData } = get(); // Use the original data for searching
 
       const filteredData = allData.filter((proxy) =>
-        proxy.toLowerCase().includes(query.toLowerCase())
+        proxy.toLowerCase().includes(query.toLowerCase()),
       );
 
       set({ filteredData }); // Update filteredData with the search result

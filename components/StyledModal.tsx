@@ -48,7 +48,7 @@ export default function StyledModal({
 
       const res = await fetch(
         `https://stage9.heatmapcore.com/backend/settings/manageorigin?url=${proxy}&type=${type}&request=add`,
-        requestOptions as RequestInit
+        requestOptions as RequestInit,
       );
 
       if (res.ok) {

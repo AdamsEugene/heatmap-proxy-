@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <section className="flex flex-col items-center justify-center gap-8 py-2">
-      {proxyList && <StyledTable pageTitle="SPAs" proxyList={proxyList} />}
+      <StyledTable pageTitle="SPAs" proxyList={proxyList} />
       {!proxyList && (
         <div className="w-full" style={{ height: "calc(100vh - 150px)" }}>
           <div className="h-full flex items-center justify-center">

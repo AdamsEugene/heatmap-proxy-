@@ -7,4 +7,5 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 export interface PROXY_RESPONSE {
   result: "success" | "error";
   msg: string[];
+  data?: string[];
 }

@@ -300,7 +300,6 @@ export const DeleteIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-
 export const EyeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     aria-hidden="true"

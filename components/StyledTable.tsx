@@ -17,7 +17,6 @@ import {
 import { DeleteIcon } from "./icons";
 import StyledHeader from "./StyledHeader";
 
-import { PROXY_RESPONSE } from "@/types";
 import { removeProxy } from "@/app/api/apiGet";
 import { useAppStore } from "@/app/store/AppStoreProvider";
 
@@ -28,7 +27,7 @@ type ProxyItem = {
 };
 
 type PROPS = {
-  proxyList: PROXY_RESPONSE;
+  proxyList: string[] | false;
   pageTitle: string;
 };
 
@@ -55,71 +54,87 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
   const removeItem = useAppStore((state) => state.removeItem);
 
   const Active = React.useMemo(() => {
-    return filteredData?.map((proxy) => ({
+    if (!filteredData || !Array.isArray(filteredData)) {
+      return [];
+    }
+
+    return filteredData.map((proxy) => ({
       key: proxy,
       name: proxy,
       status: "active",
     }));
   }, [filteredData]) as ProxyItem[];
 
-  const totalPages = Math.ceil(Active?.length / itemsPerPage);
+  const totalPages = Math.ceil((Active?.length || 0) / itemsPerPage);
 
-  const paginatedData = Active?.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedData =
+    Active?.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    ) || [];
 
   React.useEffect(() => {
-    if (filteredData?.length <= 10) setCurrentPage(1);
+    if (Array.isArray(filteredData) && filteredData.length <= 10) {
+      setCurrentPage(1);
+    }
   }, [filteredData]);
 
   React.useEffect(() => {
-    setAllData(proxyList as any);
-  }, []);
-
-  const renderCell = React.useCallback((item: ProxyItem, columnKey: string) => {
-    const cellValue = item[columnKey as keyof ProxyItem];
-
-    switch (columnKey) {
-      case "name":
-        return <span>{cellValue as string}</span>;
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[item.status]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="flex items-center justify-end gap-2 mr-10">
-            <Tooltip color="danger" content="Delete">
-              <Button
-                isIconOnly
-                className="cursor-pointer text-danger"
-                variant="light"
-                onClick={async () => {
-                  const res = await removeProxy({
-                    proxy: item.name,
-                    type: pageTitle === "SPAs" ? "spa" : "website",
-                  });
-
-                  if (res) removeItem(item.name);
-                }}
-              >
-                <DeleteIcon className="text-xl" />
-              </Button>
-            </Tooltip>
-          </div>
-        );
-      default:
-        return cellValue as string;
+    // Handle the case when proxyList is false or not an array
+    if (proxyList && Array.isArray(proxyList)) {
+      setAllData(proxyList);
+    } else {
+      // Set empty array if no valid data
+      setAllData([]);
     }
-  }, []);
+  }, [setAllData, proxyList]);
+
+  const renderCell = React.useCallback(
+    (item: ProxyItem, columnKey: string) => {
+      const cellValue = item[columnKey as keyof ProxyItem];
+
+      switch (columnKey) {
+        case "name":
+          return <span>{cellValue as string}</span>;
+        case "status":
+          return (
+            <Chip
+              className="capitalize"
+              color={statusColorMap[item.status]}
+              size="sm"
+              variant="flat"
+            >
+              {cellValue}
+            </Chip>
+          );
+        case "actions":
+          return (
+            <div className="flex items-center justify-end gap-2 mr-10">
+              <Tooltip color="danger" content="Delete">
+                <Button
+                  isIconOnly
+                  className="cursor-pointer text-danger"
+                  variant="light"
+                  onClick={async () => {
+                    const res = await removeProxy({
+                      proxy: item.name,
+                      type: pageTitle === "SPAs" ? "spa" : "website",
+                    });
+
+                    if (res) removeItem(item.name);
+                  }}
+                >
+                  <DeleteIcon className="text-xl" />
+                </Button>
+              </Tooltip>
+            </div>
+          );
+        default:
+          return cellValue as string;
+      }
+    },
+    [removeItem, pageTitle]
+  );
 
   return (
     <div className="flex flex-col w-full gap-8">
