@@ -118,7 +118,16 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
                   onClick={async () => {
                     const res = await removeProxy({
                       proxy: item.name,
-                      type: pageTitle === "SPAs" ? "spa" : "website",
+                      type:
+                        pageTitle === "SPAs"
+                          ? "spa"
+                          : pageTitle === "Proxy4"
+                          ? "proxy4"
+                          : pageTitle === "Proxy5"
+                          ? "proxy5"
+                          : pageTitle === "Proxy6"
+                          ? "proxy6"
+                          : "website",
                     });
 
                     if (res) removeItem(item.name);
