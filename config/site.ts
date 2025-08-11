@@ -12,6 +12,18 @@ export const siteConfig = {
       label: "SPAs",
       href: "/spa",
     },
+    {
+      label: "Proxy4",
+      href: "/proxy4",
+    },
+    {
+      label: "Proxy5",
+      href: "/proxy5",
+    },
+    {
+      label: "Proxy6",
+      href: "/proxy6",
+    },
   ],
   navMenuItems: [
     {
@@ -21,6 +33,18 @@ export const siteConfig = {
     {
       label: "SPAs",
       href: "/spa",
+    },
+    {
+      label: "Proxy4",
+      href: "/proxy4",
+    },
+    {
+      label: "Proxy5",
+      href: "/proxy5",
+    },
+    {
+      label: "Proxy6",
+      href: "/proxy6",
     },
     {
       label: "Logout",

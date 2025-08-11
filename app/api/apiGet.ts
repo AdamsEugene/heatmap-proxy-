@@ -47,7 +47,7 @@ export async function apiPost<T>(
 }
 
 type GET_PROXY = {
-  type: "spa" | "website";
+  type: "spa" | "website" | "proxy4" | "proxy5" | "proxy6";
 };
 
 export async function getAllProxyList(params: GET_PROXY) {
@@ -62,7 +62,7 @@ export async function getAllProxyList(params: GET_PROXY) {
 }
 
 type ADD_PROXY = {
-  type: "spa" | "website";
+  type: "spa" | "website" | "proxy4" | "proxy5" | "proxy6";
   proxy: string;
 };
 
