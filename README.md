@@ -28,6 +28,10 @@ To create a new project based on this template using `create-next-app`, run the 
 npx create-next-app -e https://github.com/nextui-org/next-app-template
 ```
 
+### Runtime
+
+Use **Node.js 22.x** (see `.nvmrc` and `engines` in `package.json`). Vercel picks this up automatically; avoid pinning the project to discontinued Node 20.
+
 ### Environment (Heatmap API)
 
 The UI calls the Heatmap `manageorigin` endpoint for listing and updating origins. Copy `.env.example` to `.env` and set `NEXT_PUBLIC_BASE_URL` (or `BASE_URL`) to the **full base URL of that endpoint** (path only, no `?` query string). Example:
