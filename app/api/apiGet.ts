@@ -1,5 +1,7 @@
 "use server";
 
+import type { GET_PROXY_TYPE } from "@/types/proxy";
+
 import { manageOriginUrl } from "@/lib/heatmap-api";
 import { PROXY_RESPONSE } from "@/types";
 
@@ -28,7 +30,7 @@ async function fetchManageOriginJson<T>(
 }
 
 type GET_PROXY = {
-  type: "spa" | "website" | "proxy4" | "proxy5" | "proxy6";
+  type: GET_PROXY_TYPE;
 };
 
 export async function getAllProxyList(params: GET_PROXY) {
@@ -45,7 +47,7 @@ export async function getAllProxyList(params: GET_PROXY) {
 }
 
 type ADD_PROXY = {
-  type: "spa" | "website" | "proxy4" | "proxy5" | "proxy6";
+  type: GET_PROXY_TYPE;
   proxy: string;
 };
 
