@@ -24,6 +24,16 @@ To create a new project based on this template using `create-next-app`, run the 
 npx create-next-app -e https://github.com/nextui-org/next-app-template
 ```
 
+### Environment (Heatmap API)
+
+The UI calls the Heatmap `manageorigin` endpoint for listing and updating origins. Copy `.env.example` to `.env` and set `NEXT_PUBLIC_BASE_URL` (or `BASE_URL`) to the **full base URL of that endpoint** (path only, no `?` query string). Example:
+
+```bash
+NEXT_PUBLIC_BASE_URL=https://stage9.heatmapcore.com/backend/settings/manageorigin
+```
+
+If that endpoint returns 404 or is unreachable, the app still loads and shows "Sorry, no data found." for empty lists.
+
 ### Install dependencies
 
 You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:

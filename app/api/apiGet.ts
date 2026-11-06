@@ -1,49 +1,30 @@
 "use server";
 
+import { manageOriginUrl } from "@/lib/heatmap-api";
 import { PROXY_RESPONSE } from "@/types";
 
-export async function apiGet<T>(
-  url: string,
+async function fetchManageOriginJson<T>(
+  params: { url: string; type: string; request: string },
   options?: RequestInit,
-): Promise<T> {
-  const res = await fetch(
-    `https://stage9.heatmapcore.com/backend/settings/manageorigin?url${url}`,
-    {
-      next: { tags: ["home", "proxy"] },
-      cache: "no-store",
-      ...options,
-    },
-  );
+): Promise<T | null> {
+  const href = manageOriginUrl(params);
+  const res = await fetch(href, {
+    next: { tags: ["home", "proxy"] },
+    cache: "no-store",
+    ...options,
+  });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    if (process.env.NODE_ENV === "development") {
+      process.stderr.write(
+        `[heatmap-proxy] manageorigin request failed: ${res.status} ${href}\n`,
+      );
+    }
+
+    return null;
   }
 
-  const data = await res.json();
-
-  return data as T;
-}
-
-export async function apiPost<T>(
-  url: string,
-  options?: RequestInit,
-): Promise<T> {
-  const res = await fetch(
-    `https://stage9.heatmapcore.com/backend/settings/manageorigin?url${url}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      ...options,
-    },
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  const data = await res.json();
-
-  return data as T;
+  return (await res.json()) as T;
 }
 
 type GET_PROXY = {
@@ -52,13 +33,15 @@ type GET_PROXY = {
 
 export async function getAllProxyList(params: GET_PROXY) {
   const { type } = params;
-  const appendedUrl = `=&type=${type}&request=list`;
+  const res = await fetchManageOriginJson<PROXY_RESPONSE>({
+    url: "other",
+    type,
+    request: "list",
+  });
 
-  const res = await apiGet<PROXY_RESPONSE>(appendedUrl, { cache: "no-store" });
+  if (!res || res.result === "error") return false;
 
-  if (res.result === "error") return false;
-
-  return (res as any).data;
+  return res.data ?? false;
 }
 
 type ADD_PROXY = {
@@ -75,13 +58,13 @@ export async function addProxy(params: ADD_PROXY) {
   };
 
   const res = await fetch(
-    `https://stage9.heatmapcore.com/backend/settings/manageorigin?url=${proxy}&type=${type}&request=add`,
+    manageOriginUrl({ url: proxy, type, request: "add" }),
     requestOptions as RequestInit,
   );
 
   return (res as any).data;
 }
-// https://stage9.heatmapcore.com/backend/settings/manageorigin?url=other&type=spa&request=list
+// Example list URL: ?url=other&type=spa&request=list
 export const removeProxy = async (params: ADD_PROXY) => {
   const { type, proxy } = params;
 
@@ -91,11 +74,9 @@ export const removeProxy = async (params: ADD_PROXY) => {
   };
 
   const response = await fetch(
-    `https://stage9.heatmapcore.com/backend/settings/manageorigin?url=${proxy}&type=${type}&request=remove`,
+    manageOriginUrl({ url: proxy, type, request: "remove" }),
     requestOptions as RequestInit,
   );
-
-  console.log(response);
 
   if (response.ok) {
     return proxy;

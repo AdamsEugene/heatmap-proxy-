@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 
 import { useAppStore } from "@/app/store/AppStoreProvider";
+import { manageOriginUrl } from "@/lib/heatmap-api";
 
 type PROPS = {
   pageTitle: string;
@@ -47,17 +48,17 @@ export default function StyledModal({
         pageTitle === "SPAs"
           ? "spa"
           : pageTitle === "Proxy4"
-          ? "proxy4"
-          : pageTitle === "Proxy5"
-          ? "proxy5"
-          : pageTitle === "Proxy6"
-          ? "proxy6"
-          : "website";
+            ? "proxy4"
+            : pageTitle === "Proxy5"
+              ? "proxy5"
+              : pageTitle === "Proxy6"
+                ? "proxy6"
+                : "website";
       const proxy = url.trim();
 
       const res = await fetch(
-        `https://stage9.heatmapcore.com/backend/settings/manageorigin?url=${proxy}&type=${type}&request=add`,
-        requestOptions as RequestInit
+        manageOriginUrl({ url: proxy, type, request: "add" }),
+        requestOptions as RequestInit,
       );
 
       if (res.ok) {
