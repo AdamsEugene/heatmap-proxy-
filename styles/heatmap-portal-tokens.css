@@ -1,0 +1,122 @@
+/* Heatmap portal–aligned design tokens (subset, aligned with pilgrim/heatmap-source).
+   Brand primary and neutral tint match styleguide/src/client-records/heatmap.ts */
+
+:root {
+  --ink: #262626;
+  --tint-strength: 0.1;
+  --tint: #ebdbbc;
+  --tint-source: var(--tint, var(--primary));
+
+  --neutral-0: #ffffff;
+  --neutral-12: oklch(from var(--tint-source) 0.988 calc(c * var(--tint-strength)) h);
+  --neutral-25: oklch(from var(--tint-source) 0.976 calc(c * var(--tint-strength)) h);
+  --neutral-50: oklch(from var(--tint-source) 0.955 calc(c * var(--tint-strength)) h);
+  --neutral-100: oklch(from var(--tint-source) 0.934 calc(c * var(--tint-strength)) h);
+  --neutral-200: oklch(from var(--tint-source) 0.895 calc(c * var(--tint-strength)) h);
+  --neutral-300: oklch(from var(--tint-source) 0.855 calc(c * var(--tint-strength)) h);
+  --neutral-400: oklch(from var(--tint-source) 0.805 calc(c * var(--tint-strength)) h);
+  --neutral-500: oklch(from var(--tint-source) 0.716 calc(c * var(--tint-strength)) h);
+  --neutral-600: oklch(from var(--tint-source) 0.657 calc(c * var(--tint-strength)) h);
+  --neutral-700: oklch(from var(--tint-source) 0.556 calc(c * var(--tint-strength)) h);
+  --neutral-750: oklch(from var(--tint-source) 0.51 calc(c * var(--tint-strength)) h);
+  --neutral-800: oklch(from var(--tint-source) 0.372 calc(c * var(--tint-strength)) h);
+  --neutral-900: oklch(from var(--tint-source) 0.269 calc(c * var(--tint-strength)) h);
+  --neutral-950: oklch(from var(--tint-source) 0.213 calc(c * var(--tint-strength)) h);
+
+  --surface: var(--neutral-0);
+  --canvas: var(--neutral-25);
+  --subtle: var(--neutral-50);
+  --border: var(--neutral-100);
+  --edge: var(--neutral-200);
+  --icon: var(--neutral-500);
+  --text-muted: var(--neutral-750);
+  --text: var(--neutral-900);
+
+  --background: var(--neutral-12);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+
+  --primary: #10b068;
+  --primary-foreground: var(--neutral-0);
+  --secondary: var(--subtle);
+  --secondary-foreground: var(--text);
+  --muted: var(--subtle);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--subtle);
+  --accent-foreground: var(--text);
+
+  --destructive: #b45e55;
+  --destructive-foreground: var(--neutral-0);
+  --success: #4e9961;
+  --warning: #d97230;
+  --info: #3e7bb7;
+  --success-tint: #d8f8e2;
+  --warning-tint: #ffe8d9;
+  --destructive-tint: #ffe9e5;
+  --info-tint: #e2f0ff;
+
+  --border-strong: var(--edge);
+  --input: var(--edge);
+  --ring: var(--neutral-750);
+  --accent-tint: color-mix(in srgb, var(--primary) 12%, white);
+
+  --radius-sm: 0.75rem;
+  --radius: 0.75rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 1.5rem;
+  --radius-card: 1.75rem;
+  --radius-surface: 1.5rem;
+
+  --content: 1072px;
+}
+
+.dark {
+  --neutral-0: #262626;
+  --neutral-12: oklch(from var(--tint-source) 0.252 calc(c * var(--tint-strength)) h);
+  --neutral-25: oklch(from var(--tint-source) 0.28 calc(c * var(--tint-strength)) h);
+  --neutral-50: oklch(from var(--tint-source) 0.305 calc(c * var(--tint-strength)) h);
+  --neutral-100: oklch(from var(--tint-source) 0.34 calc(c * var(--tint-strength)) h);
+  --neutral-200: oklch(from var(--tint-source) 0.38 calc(c * var(--tint-strength)) h);
+  --neutral-300: oklch(from var(--tint-source) 0.42 calc(c * var(--tint-strength)) h);
+  --neutral-400: oklch(from var(--tint-source) 0.48 calc(c * var(--tint-strength)) h);
+  --neutral-500: oklch(from var(--tint-source) 0.58 calc(c * var(--tint-strength)) h);
+  --neutral-600: oklch(from var(--tint-source) 0.64 calc(c * var(--tint-strength)) h);
+  --neutral-700: oklch(from var(--tint-source) 0.72 calc(c * var(--tint-strength)) h);
+  --neutral-750: oklch(from var(--tint-source) 0.76 calc(c * var(--tint-strength)) h);
+  --neutral-800: oklch(from var(--tint-source) 0.82 calc(c * var(--tint-strength)) h);
+  --neutral-900: oklch(from var(--tint-source) 0.88 calc(c * var(--tint-strength)) h);
+  --neutral-950: oklch(from var(--tint-source) 0.935 calc(c * var(--tint-strength)) h);
+
+  --surface: #262626;
+  --canvas: var(--neutral-25);
+  --subtle: var(--neutral-50);
+  --border: var(--neutral-100);
+  --edge: var(--neutral-200);
+  --icon: var(--neutral-500);
+  --text-muted: oklch(from var(--tint-source) 0.72 calc(c * var(--tint-strength)) h);
+  --text: oklch(from var(--tint-source) 0.965 calc(c * var(--tint-strength)) h);
+
+  --background: var(--canvas);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+
+  --primary: #10b068;
+  --primary-foreground: oklch(from var(--tint-source) 0.213 calc(c * var(--tint-strength)) h);
+  --secondary: var(--subtle);
+  --secondary-foreground: var(--text);
+  --muted: var(--subtle);
+  --muted-foreground: var(--icon);
+  --accent: var(--subtle);
+  --accent-foreground: var(--text);
+
+  --border-strong: var(--edge);
+  --input: rgba(255, 255, 255, 0.14);
+  --ring: var(--neutral-400);
+  --accent-tint: color-mix(in srgb, var(--primary) 22%, transparent);
+}

@@ -4,6 +4,10 @@ This is a template for creating applications using Next.js 14 (app directory) an
 
 [Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
 
+## Look & feel
+
+The UI follows the **Heatmap portal (V3)** visual language from `pilgrim/heatmap-source`: Inter, brand green `#10b068`, warm neutral tint `#ebdbbc`, content width `--content` (1072px), and a **settings-style** shell (sidebar nav + main column).
+
 ## Technologies Used
 
 - [Next.js 14](https://nextjs.org/docs/getting-started)
