@@ -13,6 +13,7 @@ import { useState } from "react";
 
 import { useAppStore } from "@/app/store/AppStoreProvider";
 import { manageOriginUrl } from "@/lib/heatmap-api";
+import { pageTitleToProxyType } from "@/lib/proxy-page-title";
 
 type PROPS = {
   pageTitle: string;
@@ -35,6 +36,7 @@ export default function StyledModal({
     setAdding(true);
     if (!url) {
       setError(true);
+      setAdding(false);
 
       return;
     }
@@ -44,16 +46,7 @@ export default function StyledModal({
         redirect: "follow",
       };
 
-      const type =
-        pageTitle === "SPAs"
-          ? "spa"
-          : pageTitle === "Proxy4"
-            ? "proxy4"
-            : pageTitle === "Proxy5"
-              ? "proxy5"
-              : pageTitle === "Proxy6"
-                ? "proxy6"
-                : "website";
+      const type = pageTitleToProxyType(pageTitle);
       const proxy = url.trim();
 
       const res = await fetch(
@@ -74,35 +67,62 @@ export default function StyledModal({
 
   return (
     <>
-      <Modal isOpen={isOpen} placement="top" onOpenChange={onOpenChange}>
-        <ModalContent>
+      <Modal
+        backdrop="blur"
+        classNames={{
+          base: "border border-border shadow-lg",
+          header: "border-b border-border",
+          footer: "border-t border-border",
+        }}
+        isOpen={isOpen}
+        placement="center"
+        radius="lg"
+        scrollBehavior="inside"
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent className="bg-card">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Add New {pageTitle}
+              <ModalHeader className="flex flex-col gap-1 pb-1">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Add origin
+                </p>
+                <span className="text-lg font-semibold tracking-tight text-foreground">
+                  {pageTitle}
+                </span>
               </ModalHeader>
-              <ModalBody>
+              <ModalBody className="gap-2 pt-2">
                 <Input
+                  classNames={{
+                    inputWrapper:
+                      "border border-input bg-background shadow-none h-11",
+                    input: "text-sm",
+                    label: "text-sm font-medium text-foreground",
+                  }}
+                  errorMessage={
+                    error ? "Enter a valid URL to continue." : undefined
+                  }
                   isInvalid={error}
-                  label="Add the url"
+                  label="Site URL"
                   labelPlacement="outside"
-                  placeholder="loveamika.com"
+                  placeholder="example.com or https://example.com"
                   onValueChange={(value) => {
                     error && setError(false);
                     setUrl(value);
                   }}
                 />
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+              <ModalFooter className="gap-2">
+                <Button variant="bordered" onPress={onClose}>
+                  Cancel
                 </Button>
                 <Button
+                  className="font-semibold"
                   color="primary"
                   isLoading={adding}
                   onPress={() => handleSubmit(onClose)}
                 >
-                  Add
+                  Add origin
                 </Button>
               </ModalFooter>
             </>

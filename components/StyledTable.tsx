@@ -19,6 +19,7 @@ import StyledHeader from "./StyledHeader";
 
 import { removeProxy } from "@/app/api/apiGet";
 import { useAppStore } from "@/app/store/AppStoreProvider";
+import { pageTitleToProxyType } from "@/lib/proxy-page-title";
 
 type ProxyItem = {
   key: string;
@@ -70,7 +71,7 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
   const paginatedData =
     Active?.slice(
       (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage
+      currentPage * itemsPerPage,
     ) || [];
 
   React.useEffect(() => {
@@ -118,16 +119,7 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
                   onClick={async () => {
                     const res = await removeProxy({
                       proxy: item.name,
-                      type:
-                        pageTitle === "SPAs"
-                          ? "spa"
-                          : pageTitle === "Proxy4"
-                          ? "proxy4"
-                          : pageTitle === "Proxy5"
-                          ? "proxy5"
-                          : pageTitle === "Proxy6"
-                          ? "proxy6"
-                          : "website",
+                      type: pageTitleToProxyType(pageTitle),
                     });
 
                     if (res) removeItem(item.name);
@@ -142,15 +134,32 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
           return cellValue as string;
       }
     },
-    [removeItem, pageTitle]
+    [removeItem, pageTitle],
   );
 
   return (
-    <div className="flex flex-col w-full gap-8">
+    <div className="flex w-full flex-col gap-6">
       <StyledHeader pageTitle={pageTitle} />
 
-      <div className="flex flex-col w-full gap-4">
-        <Table isStriped aria-label="Styled table with dynamic content">
+      <div
+        data-hm-card
+        className="overflow-hidden rounded-portal border border-border bg-card shadow-sm"
+      >
+        <Table
+          removeWrapper
+          aria-label={`${pageTitle} proxy origins`}
+          classNames={{
+            base: "min-h-[200px]",
+            wrapper: "p-0",
+            th: "bg-canvas text-xs font-semibold uppercase tracking-wide text-muted-foreground first:pl-5 last:pr-5 h-11",
+            td: "text-sm text-foreground first:pl-5 last:pr-5 py-3.5",
+            tbody:
+              "[&>tr]:border-b [&>tr]:border-border [&>tr]:last:border-b-0",
+            tr: "hover:bg-canvas/80 transition-colors",
+          }}
+          isCompact={false}
+          isStriped={false}
+        >
           <TableHeader columns={columns}>
             {(column) => (
               <TableColumn
@@ -158,18 +167,25 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
                 align={column.key === "actions" ? "end" : "start"}
               >
                 <div
-                  className={`flex ${
+                  className={
                     column.key === "actions"
-                      ? "justify-end mr-8"
-                      : "justify-start"
-                  }`}
+                      ? "flex justify-end pr-2"
+                      : "flex justify-start"
+                  }
                 >
                   {column.label}
                 </div>
               </TableColumn>
             )}
           </TableHeader>
-          <TableBody items={paginatedData}>
+          <TableBody
+            emptyContent={
+              <span className="text-sm text-muted-foreground">
+                No origins yet. Add one with <strong>Add origin</strong>.
+              </span>
+            }
+            items={paginatedData}
+          >
             {(item) => (
               <TableRow key={item.key}>
                 {(columnKey) => (
@@ -184,11 +200,13 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
           </TableBody>
         </Table>
         {Active?.length > itemsPerPage && (
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center border-t border-border bg-canvas/50 px-4 py-4">
             <Pagination
-              color="secondary"
+              showControls
+              color="primary"
               initialPage={1}
               page={currentPage}
+              size="sm"
               total={totalPages}
               onChange={(page) => setCurrentPage(page)}
             />
