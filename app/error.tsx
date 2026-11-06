@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { Button } from "@nextui-org/button";
 
 export default function Error({
   error,
@@ -16,16 +17,21 @@ export default function Error({
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
+    <div className="rounded-portal border border-border bg-card p-8 text-center shadow-sm">
+      <h2 className="text-lg font-semibold tracking-tight text-foreground">
+        Something went wrong
+      </h2>
+      <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+        {error.message || "An unexpected error occurred."}
+      </p>
+      <Button
+        className="mt-6 font-semibold"
+        color="primary"
+        radius="lg"
+        onPress={() => reset()}
       >
         Try again
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Heatmap-proxy",
-  description: "Add site to the proxy list of heatmap",
+  name: "Heatmap",
+  description: "Manage proxy origins for Heatmap",
   navItems: [
     {
       label: "Origins",
