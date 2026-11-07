@@ -1,3 +1,5 @@
+export type NavIconKey = "world" | "spa" | "server";
+
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
@@ -7,22 +9,27 @@ export const siteConfig = {
     {
       label: "Origins",
       href: "/",
+      icon: "world" as const,
     },
     {
       label: "SPAs",
       href: "/spa",
+      icon: "spa" as const,
     },
     {
       label: "Proxy4",
       href: "/proxy4",
+      icon: "server" as const,
     },
     {
       label: "Proxy5",
       href: "/proxy5",
+      icon: "server" as const,
     },
     {
       label: "Proxy6",
       href: "/proxy6",
+      icon: "server" as const,
     },
   ],
   navMenuItems: [
