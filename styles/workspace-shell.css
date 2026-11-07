@@ -1,0 +1,166 @@
+/* Subset of heatmap-source workspace shell for the proxy admin tool */
+
+.hm-ws {
+  --hm-nav-w: 272px;
+  position: relative;
+  height: 100dvh;
+  padding: 4px;
+  display: grid;
+  grid-template-columns: var(--hm-nav-w) 4px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0;
+  background: var(--background);
+  color: var(--foreground);
+  overflow: hidden;
+}
+
+.hm-ws-col {
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.hm-ws-col--nav {
+  grid-column: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-col);
+  overflow: hidden;
+}
+
+.hm-ws-col--content {
+  grid-column: 3;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-col);
+  min-height: 0;
+}
+
+.hm-ws-col__hdr {
+  flex: none;
+  height: 60px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-inline: 16px;
+  gap: 10px;
+}
+
+.hm-ws-col__hdr::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--border);
+}
+
+.hm-ws-col__title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hm-ws-col__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--ws-card-inset);
+  scrollbar-gutter: stable;
+  padding-right: calc(var(--ws-card-inset) - 8px);
+}
+
+.hm-ws-col__foot {
+  flex: none;
+  border-top: 1px solid var(--border);
+  padding: var(--ws-card-inset);
+}
+
+.hm-ws-navlist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ws-row-gap);
+  padding-bottom: 4px;
+}
+
+.hm-ws-content-pane {
+  display: flex;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hm-ws-content-scroll {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  padding: 24px 4px 120px 14px;
+}
+
+.hm-ws-content-inner {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--content);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (max-width: 767px) {
+  .hm-ws {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: auto;
+    min-height: 100dvh;
+    overflow: auto;
+  }
+
+  .hm-ws-col--nav {
+    grid-column: 1;
+    grid-row: 1;
+    border-radius: var(--radius-lg);
+    margin: 0 4px;
+  }
+
+  .hm-ws-col--content {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .hm-ws-content-pane {
+    flex-direction: column;
+  }
+
+  [data-slot="page-nav"] {
+    width: 100% !important;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hm-ws-col__body {
+    padding: 12px;
+    padding-right: 12px;
+  }
+
+  .hm-ws-navlist {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 6px;
+    padding-bottom: 0;
+  }
+}
