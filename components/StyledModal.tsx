@@ -3,16 +3,18 @@
 import {
   Modal,
   ModalContent,
-  ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
   Input,
 } from "@nextui-org/react";
 import { useState } from "react";
+import { TbX } from "react-icons/tb";
 
 import { useAppStore } from "@/app/store/AppStoreProvider";
+import { TablerIcon } from "@/lib/tabler-icon";
 import { manageOriginUrl } from "@/lib/heatmap-api";
+import { PortalButton } from "@/components/portal/portal-button";
+import { PortalIconButton } from "@/components/portal/portal-icon-button";
 import { pageTitleToProxyType } from "@/lib/proxy-page-title";
 
 type PROPS = {
@@ -68,11 +70,13 @@ export default function StyledModal({
   return (
     <>
       <Modal
+        hideCloseButton
         backdrop="blur"
         classNames={{
-          base: "border border-border shadow-lg",
-          header: "border-b border-border",
-          footer: "border-t border-border",
+          base: "border border-border shadow-lg font-sans",
+          body: "font-sans",
+          footer: "border-t border-border font-sans",
+          closeButton: "hidden",
         }}
         isOpen={isOpen}
         placement="center"
@@ -80,17 +84,28 @@ export default function StyledModal({
         scrollBehavior="inside"
         onOpenChange={onOpenChange}
       >
-        <ModalContent className="bg-card">
+        <ModalContent className="bg-card font-sans">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 pb-1">
-                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Add origin
-                </p>
-                <span className="text-lg font-semibold tracking-tight text-foreground">
-                  {pageTitle}
-                </span>
-              </ModalHeader>
+              <div className="flex items-center gap-3 border-b border-border px-4 py-3">
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Add origin
+                  </p>
+                  <p className="truncate text-base font-semibold leading-5 text-foreground">
+                    {pageTitle}
+                  </p>
+                </div>
+                <PortalIconButton
+                  className="-mr-1.5"
+                  label="Close"
+                  motion="rotate"
+                  type="button"
+                  onClick={onClose}
+                >
+                  <TablerIcon aria-hidden className="size-4" icon={TbX} />
+                </PortalIconButton>
+              </div>
               <ModalBody className="gap-2 pt-2">
                 <Input
                   classNames={{
@@ -113,17 +128,23 @@ export default function StyledModal({
                 />
               </ModalBody>
               <ModalFooter className="gap-2">
-                <Button variant="bordered" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  className="font-semibold"
-                  color="primary"
-                  isLoading={adding}
-                  onPress={() => handleSubmit(onClose)}
+                <PortalButton
+                  disabled={adding}
+                  revealIcon="x"
+                  type="button"
+                  variant="secondary"
+                  onClick={onClose}
                 >
-                  Add origin
-                </Button>
+                  Cancel
+                </PortalButton>
+                <PortalButton
+                  disabled={adding}
+                  revealIcon="check"
+                  type="button"
+                  onClick={() => handleSubmit(onClose)}
+                >
+                  {adding ? "Adding…" : "Add origin"}
+                </PortalButton>
               </ModalFooter>
             </>
           )}

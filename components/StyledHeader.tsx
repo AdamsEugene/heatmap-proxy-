@@ -1,7 +1,8 @@
 "use client";
 
 import { useDisclosure } from "@nextui-org/react";
-import { Button } from "@nextui-org/button";
+
+import { PortalButton } from "@/components/portal/portal-button";
 
 import StyledModal from "./StyledModal";
 
@@ -25,9 +26,9 @@ export default function StyledHeader({ pageTitle }: PROPS) {
     <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="min-w-0 flex-1 space-y-1">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          Subscriptions
+          Manage origin
         </p>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground md:text-[1.75rem]">
+        <h1 className="text-xl font-bold tracking-[-0.01em] text-foreground md:text-[1.375rem] md:leading-tight">
           {pageTitle}
         </h1>
         {blurb && (
@@ -37,14 +38,9 @@ export default function StyledHeader({ pageTitle }: PROPS) {
         )}
       </div>
       <div className="flex flex-shrink-0 items-center gap-2">
-        <Button
-          className="font-semibold"
-          color="primary"
-          radius="lg"
-          onClick={onOpen}
-        >
+        <PortalButton revealIcon="plus" type="button" onClick={onOpen}>
           Add origin
-        </Button>
+        </PortalButton>
         <StyledModal
           isOpen={isOpen}
           pageTitle={pageTitle}

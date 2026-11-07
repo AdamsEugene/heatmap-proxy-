@@ -8,7 +8,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Chip,
   Tooltip,
   Pagination,
   Button,
@@ -37,14 +36,6 @@ const columns = [
   { key: "status", label: "STATUS" },
   { key: "actions", label: "ACTIONS" },
 ];
-
-const statusColorMap: {
-  [key in ProxyItem["status"]]: "success" | "danger" | "warning";
-} = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
 
 export default function StyledTable({ proxyList, pageTitle }: PROPS) {
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -99,14 +90,9 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
           return <span>{cellValue as string}</span>;
         case "status":
           return (
-            <Chip
-              className="capitalize"
-              color={statusColorMap[item.status]}
-              size="sm"
-              variant="flat"
-            >
+            <span className="inline-flex h-7 items-center rounded-full bg-success-tint px-2.5 text-xs font-medium capitalize text-success">
               {cellValue}
-            </Chip>
+            </span>
           );
         case "actions":
           return (
@@ -143,7 +129,7 @@ export default function StyledTable({ proxyList, pageTitle }: PROPS) {
 
       <div
         data-hm-card
-        className="overflow-hidden rounded-portal border border-border bg-card shadow-sm"
+        className="overflow-hidden rounded-[var(--radius-card)] border border-border bg-card shadow-[0_1px_2px_rgba(10,13,18,0.04)]"
       >
         <Table
           removeWrapper

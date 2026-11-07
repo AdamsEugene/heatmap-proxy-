@@ -9,7 +9,7 @@ export function EmptyProxyState({
 }: Props) {
   return (
     <div
-      className="rounded-portal border border-dashed border-border bg-card px-6 py-14 text-center"
+      className="rounded-[var(--radius-card)] border border-dashed border-border bg-card px-6 py-14 text-center"
       role="status"
     >
       <p className="text-lg font-semibold tracking-tight text-foreground">

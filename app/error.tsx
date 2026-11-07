@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Button } from "@nextui-org/button";
+import { PortalButton } from "@/components/portal/portal-button";
 
 export default function Error({
   error,
@@ -17,21 +17,16 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="rounded-portal border border-border bg-card p-8 text-center shadow-sm">
+    <div className="rounded-[var(--radius-card)] border border-border bg-card p-8 text-center shadow-sm">
       <h2 className="text-lg font-semibold tracking-tight text-foreground">
         Something went wrong
       </h2>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
         {error.message || "An unexpected error occurred."}
       </p>
-      <Button
-        className="mt-6 font-semibold"
-        color="primary"
-        radius="lg"
-        onPress={() => reset()}
-      >
+      <PortalButton className="mt-6" type="button" onClick={() => reset()}>
         Try again
-      </Button>
+      </PortalButton>
     </div>
   );
 }
