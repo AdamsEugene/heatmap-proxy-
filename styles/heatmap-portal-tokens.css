@@ -71,6 +71,37 @@
   --radius-surface: 1.5rem;
 
   --content: 1072px;
+
+  /* Typography — portal uses Inter (see config/fonts.ts); fallback matches heatmap-source tokens. */
+  --font-sans-fallback: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-control: 0 2px 4px -1px rgb(10 13 18 / 0.08);
+  --ws-row-gap: 2px;
+  --ws-card-inset: 16px;
+  --radius-col: var(--radius-xl);
+
+  --ctl-radius: var(--radius-lg);
+  --ctl-h: 34px;
+  --ctl-h-sm: 32px;
+  --ctl-hover: var(--background);
+  --ctl-selected: var(--canvas);
+  --ctl-row-outline: var(--border);
+  --ctl-icon: var(--icon);
+  --ctl-icon-on: var(--primary);
+  --ctl-face: var(--neutral-0);
+  --ctl-face-2: var(--neutral-25);
+  --ctl-face-hover: var(--neutral-50);
+  --ctl-face-press: var(--neutral-100);
+  --ctl-line: var(--neutral-200);
+  --ctl-line-hover: var(--neutral-300);
+  --ctl-ink: var(--neutral-900);
+  --ctl-ink-quiet: var(--neutral-700);
+  --ctl-outline: rgba(17, 24, 39, 0.16);
+  --ctl-outline-hover: rgba(17, 24, 39, 0.22);
+  --ctl-wash: rgba(17, 24, 39, 0.04);
+  --ctl-wash-strong: rgba(17, 24, 39, 0.07);
 }
 
 .dark {
@@ -119,4 +150,21 @@
   --input: rgba(255, 255, 255, 0.14);
   --ring: var(--neutral-400);
   --accent-tint: color-mix(in srgb, var(--primary) 22%, transparent);
+
+  --ctl-hover: rgba(255, 255, 255, 0.06);
+  --ctl-selected: rgba(255, 255, 255, 0.06);
+  --ctl-row-outline: var(--border);
+  --ctl-outline: rgba(255, 255, 255, 0.12);
+  --ctl-face: oklch(from var(--tint-source) 0.345 calc(c * var(--tint-strength)) h);
+  --ctl-face-2: oklch(from var(--tint-source) 0.31 calc(c * var(--tint-strength)) h);
+  --ctl-face-hover: oklch(from var(--tint-source) 0.378 calc(c * var(--tint-strength)) h);
+  --ctl-face-press: oklch(from var(--tint-source) 0.285 calc(c * var(--tint-strength)) h);
+  --ctl-line: rgba(255, 255, 255, 0.16);
+  --ctl-line-hover: rgba(255, 255, 255, 0.26);
+  --ctl-ink: var(--text);
+  --ctl-ink-quiet: var(--text-muted);
+  --ctl-outline: rgba(255, 255, 255, 0.16);
+  --ctl-outline-hover: rgba(255, 255, 255, 0.26);
+  --ctl-wash: rgba(255, 255, 255, 0.06);
+  --ctl-wash-strong: rgba(255, 255, 255, 0.1);
 }

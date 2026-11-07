@@ -50,6 +50,9 @@ module.exports = {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
       },
+      boxShadow: {
+        control: "var(--shadow-control)",
+      },
     },
   },
   darkMode: "class",
