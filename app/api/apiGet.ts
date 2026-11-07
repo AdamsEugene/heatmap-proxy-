@@ -5,28 +5,38 @@ import type { GET_PROXY_TYPE } from "@/types/proxy";
 import { manageOriginUrl } from "@/lib/heatmap-api";
 import { PROXY_RESPONSE } from "@/types";
 
+function logManageOriginFailure(message: string) {
+  if (process.env.NODE_ENV === "development") {
+    process.stderr.write(`[heatmap-proxy] ${message}\n`);
+  }
+}
+
 async function fetchManageOriginJson<T>(
   params: { url: string; type: string; request: string },
   options?: RequestInit,
 ): Promise<T | null> {
   const href = manageOriginUrl(params);
-  const res = await fetch(href, {
-    next: { tags: ["home", "proxy"] },
-    cache: "no-store",
-    ...options,
-  });
 
-  if (!res.ok) {
-    if (process.env.NODE_ENV === "development") {
-      process.stderr.write(
-        `[heatmap-proxy] manageorigin request failed: ${res.status} ${href}\n`,
-      );
+  try {
+    const res = await fetch(href, {
+      next: { tags: ["home", "proxy"] },
+      cache: "no-store",
+      ...options,
+    });
+
+    if (!res.ok) {
+      logManageOriginFailure(`manageorigin request failed: ${res.status} ${href}`);
+
+      return null;
     }
+
+    return (await res.json()) as T;
+  } catch (cause) {
+    const detail = cause instanceof Error ? cause.message : String(cause);
+    logManageOriginFailure(`manageorigin fetch error: ${detail} ${href}`);
 
     return null;
   }
-
-  return (await res.json()) as T;
 }
 
 type GET_PROXY = {
@@ -59,12 +69,27 @@ export async function addProxy(params: ADD_PROXY) {
     redirect: "follow",
   };
 
-  const res = await fetch(
-    manageOriginUrl({ url: proxy, type, request: "add" }),
-    requestOptions as RequestInit,
-  );
+  try {
+    const res = await fetch(
+      manageOriginUrl({ url: proxy, type, request: "add" }),
+      requestOptions as RequestInit,
+    );
 
-  return (res as any).data;
+    if (!res.ok) {
+      return false;
+    }
+
+    const json = (await res.json().catch(() => null)) as
+      | { data?: unknown }
+      | null;
+
+    return json?.data ?? false;
+  } catch (cause) {
+    const detail = cause instanceof Error ? cause.message : String(cause);
+    logManageOriginFailure(`manageorigin add failed: ${detail}`);
+
+    return false;
+  }
 }
 // Example list URL: ?url=other&type=spa&request=list
 export const removeProxy = async (params: ADD_PROXY) => {
@@ -75,13 +100,18 @@ export const removeProxy = async (params: ADD_PROXY) => {
     redirect: "follow",
   };
 
-  const response = await fetch(
-    manageOriginUrl({ url: proxy, type, request: "remove" }),
-    requestOptions as RequestInit,
-  );
+  try {
+    const response = await fetch(
+      manageOriginUrl({ url: proxy, type, request: "remove" }),
+      requestOptions as RequestInit,
+    );
 
-  if (response.ok) {
-    return proxy;
+    if (response.ok) {
+      return proxy;
+    }
+  } catch (cause) {
+    const detail = cause instanceof Error ? cause.message : String(cause);
+    logManageOriginFailure(`manageorigin remove failed: ${detail}`);
   }
 
   return false;
