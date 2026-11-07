@@ -1,4 +1,6 @@
 @import "./heatmap-portal-tokens.css";
+@import "./workspace-shell.css";
+@import "./portal-kit.css";
 
 @tailwind base;
 @tailwind components;
@@ -7,6 +9,19 @@
 @layer base {
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Portal + NextUI controls inherit Inter from html (heatmap-source uses var(--font-sans)). */
+  :where(
+    body,
+    button,
+    input,
+    textarea,
+    select,
+    optgroup,
+    [data-slot="base"]
+  ) {
+    font-family: inherit;
   }
 }
 
