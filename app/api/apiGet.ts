@@ -3,7 +3,10 @@
 import type { GET_PROXY_TYPE } from "@/types/proxy";
 
 import { manageOriginUrl } from "@/lib/heatmap-api";
-import { PROXY_RESPONSE } from "@/types";
+import {
+  parseManageOriginList,
+  type ManageOriginListResponse,
+} from "@/lib/parse-manageorigin-list";
 
 function logManageOriginFailure(message: string) {
   if (process.env.NODE_ENV === "development") {
@@ -45,15 +48,13 @@ type GET_PROXY = {
 
 export async function getAllProxyList(params: GET_PROXY) {
   const { type } = params;
-  const res = await fetchManageOriginJson<PROXY_RESPONSE>({
+  const res = await fetchManageOriginJson<ManageOriginListResponse>({
     url: "other",
     type,
     request: "list",
   });
 
-  if (!res || res.result === "error") return false;
-
-  return res.data ?? false;
+  return parseManageOriginList(res);
 }
 
 type ADD_PROXY = {
