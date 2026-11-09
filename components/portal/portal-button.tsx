@@ -20,14 +20,18 @@ function iconSide(variant: Variant): "leading" | "trailing" {
   return variant === "primary" ? "trailing" : "leading";
 }
 
+type Size = "default" | "sm";
+
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: Variant;
+  size?: Size;
   revealIcon?: PortalRevealIconName;
   children: ReactNode;
 };
 
 export function PortalButton({
   variant = "primary",
+  size = "default",
   revealIcon,
   className,
   children,
@@ -50,7 +54,10 @@ export function PortalButton({
   return (
     <button
       className={cn(
-        "group/button inline-flex h-[var(--ctl-h)] shrink-0 items-center justify-center gap-2 rounded-[var(--ctl-radius)] border border-transparent px-4 text-base font-medium leading-none transition-all outline-none select-none",
+        "group/button inline-flex shrink-0 items-center justify-center gap-2 rounded-[var(--ctl-radius)] border border-transparent font-medium leading-none transition-all outline-none select-none",
+        size === "sm"
+          ? "h-[var(--ctl-h-sm)] px-3 text-sm"
+          : "h-[var(--ctl-h)] px-4 text-base",
         "focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--primary)_32%,transparent)]",
         "disabled:pointer-events-none disabled:opacity-45",
         revealIcon && "gap-0",
