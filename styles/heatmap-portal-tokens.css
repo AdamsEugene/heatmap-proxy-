@@ -78,6 +78,7 @@
   --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
   --shadow-control: 0 2px 4px -1px rgb(10 13 18 / 0.08);
+  --shadow-xs: 0 1px 2px 0 rgb(10 13 18 / 0.05);
   --ws-row-gap: 2px;
   --ws-card-inset: 16px;
   --radius-col: var(--radius-xl);
