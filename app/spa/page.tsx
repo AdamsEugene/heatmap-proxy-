@@ -9,7 +9,7 @@ export default async function Home() {
   return (
     <section className="flex flex-col gap-6">
       <StyledTable pageTitle="SPAs" proxyList={proxyList} />
-      {!proxyList && <EmptyProxyState />}
+      {proxyList === false && <EmptyProxyState />}
     </section>
   );
 }
